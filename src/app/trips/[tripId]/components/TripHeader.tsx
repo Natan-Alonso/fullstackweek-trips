@@ -1,30 +1,32 @@
 import { Trip } from '@prisma/client'
 import Image from 'next/image'
-import Link from 'next/link'
 import ReactCountryFlag from 'react-country-flag'
 
-interface TripItemProps {
+interface TripHeaderProps {
   trip: Trip
 }
 
-const TripItem = ({ trip }: TripItemProps) => {
+const TripHeader = ({ trip }: TripHeaderProps) => {
   return (
-    <Link href={`/trips/${trip.id}`}>
-      <div className="flex flex-col">
+    <div className="flex flex-col">
+      <div className="relative h-[300px] w-full">
         <Image
-          src={trip.coverImage}
-          width={280}
-          height={280}
-          className="rounded-lg shadow-md"
+          src={trip?.coverImage}
+          fill
           alt={trip.name}
+          style={{ objectFit: 'cover' }}
         />
+      </div>
 
-        <h3 className="text-primaryDarker font-medium text-sm mt-2">
+      {/* titulo e informações */}
+      <div className="flex flex-col p-5">
+        <h1 className="font-semibold text-xl text-primaryDarker">
           {trip.name}
-        </h3>
+        </h1>
+
         <div className="flex items-center gap-1 my-1">
           <ReactCountryFlag countryCode={trip.countryCode} svg />
-          <p className="text-xs text-grayPrimary">{trip.location}</p>
+          <p className="text-xs text-grayPrimary underline">{trip.location}</p>
         </div>
 
         <p className="text-xs text-grayPrimary">
@@ -34,8 +36,8 @@ const TripItem = ({ trip }: TripItemProps) => {
           por dia
         </p>
       </div>
-    </Link>
+    </div>
   )
 }
 
-export default TripItem
+export default TripHeader
